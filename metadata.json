@@ -1,0 +1,6 @@
+{
+  "name": "AI YouTube",
+  "description": "Local AI Video Generator for Windows Desktop - Stage 1 Hardware Scanner & Localization",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

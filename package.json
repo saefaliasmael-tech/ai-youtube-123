@@ -1,0 +1,119 @@
+{
+  "name": "ai-youtube",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local AI Video Generator for Windows Desktop - Stage 1 Hardware Scanner & Localization",
+  "author": "AI YouTube Team",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "start": "tsx server.ts",
+    "dev:vite": "vite --port=3000 --host=0.0.0.0",
+    "dev:electron": "electron .",
+    "dev:sidecar": "python3 engine/main.py --host 127.0.0.1 --port 8765",
+    "build": "npm run build:renderer && npm run build:electron",
+    "build:renderer": "vite build",
+    "build:electron": "esbuild app/electron/main.ts --bundle --platform=node --target=node20 --outfile=dist-electron/main.cjs --external:electron && esbuild app/electron/preload.ts --bundle --platform=node --target=node20 --outfile=dist-electron/preload.cjs --external:electron",
+    "package": "npm run package:win",
+    "package:win": "npm run build && electron-builder --win dir --x64",
+    "package:installer": "npm run build && electron-builder --win nsis portable --x64",
+    "package:nsis": "npm run build && electron-builder --win nsis --x64",
+    "package:portable": "npm run build && electron-builder --win portable --x64",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "test:engine": "python3 -m unittest discover -s engine/tests -p \"test_*.py\" 2>/dev/null || python -m unittest discover -s engine/tests -p \"test_*.py\"",
+    "clean": "rm -rf dist dist-electron release/win-unpacked",
+    "verify": "npm run typecheck && npm run test:engine",
+    "lint": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "com.aiyoutube.desktop",
+    "productName": "AI YouTube",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "engine/**/*",
+      "config/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/python",
+        "to": "python",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "engine",
+        "to": "engine",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "config",
+        "to": "config",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AI YouTube",
+      "artifactName": "AI-YouTube-Setup-x64.exe"
+    },
+    "portable": {
+      "artifactName": "AI-YouTube-Portable-x64.exe"
+    }
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2"
+  }
+}

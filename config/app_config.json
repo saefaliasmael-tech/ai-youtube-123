@@ -1,0 +1,29 @@
+{
+  "app_name": "AI YouTube",
+  "app_version": "0.1.0",
+  "environment": "production",
+  "sidecar": {
+    "host": "127.0.0.1",
+    "port": 8765,
+    "startup_timeout_seconds": 15
+  },
+  "paths": {
+    "models_dir": "/tmp/ai_youtube_storage_test_gassyt_y/CustomDrive_E/models",
+    "outputs_dir": "/tmp/ai_youtube_storage_test_gassyt_y/CustomDrive_E/outputs",
+    "logs_dir": "/app/applet/logs",
+    "cache_dir": "/tmp/ai_youtube_storage_test_gassyt_y/CustomDrive_E/cache",
+    "storage_root": "/tmp/ai_youtube_storage_test_gassyt_y/CustomDrive_E"
+  },
+  "hardware": {
+    "selected_gpu": null,
+    "status": "Not Scanned Yet"
+  },
+  "settings": {
+    "preset": "rtx_3060_optimized",
+    "auto_start_sidecar": true,
+    "log_level": "INFO",
+    "language": "ar"
+  },
+  "language": "ar",
+  "storage_root": "/tmp/ai_youtube_storage_test_gassyt_y/CustomDrive_E"
+}
